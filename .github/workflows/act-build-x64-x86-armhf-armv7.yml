@@ -189,7 +189,8 @@ jobs:
           packages: >
             git bash build-base ccache cmake coreutils findutils gawk grep libarchive-dev libnfs-dev libssh-dev
             libtree libxi-dev linux-headers neon-dev ninja-is-really-ninja patchelf pcre-dev perl samba-dev tar
-            uchardet-dev wget libxml2-dev xz m4 libluajit-5.1-dev uuid-dev python3-dev python3-cffi
+            uchardet-dev wget libxml2-dev xz 
+            m4 luajit-dev py3-cffi task taskd taskd-pki task-doc taskd-doc
           shell-name: alpine.sh
 
       - name: Add extra build-deps to chroot
