@@ -3,7 +3,10 @@
 REPO_DIR=$GITHUB_WORKSPACE
 BUILD_DIR=build
 INSTALL_DIR=install
-EXTRA_OPTS="@*"
+EXTRA_OPTS=("@*")
+
+echo "extra=$EXTRA_OPTS"
+echo "extra=${$EXTRA_OPTS[@]}"
 
 if [[ $(awk -F= '/^ID=/ {print $2}' /etc/os-release) == "alpine" ]]; then
   CMAKE_OPTS+=( "-DMUSL=ON -DWITH_UTILITIES=OFF" )
@@ -36,7 +39,7 @@ cmake -G Ninja \
   -DCMAKE_VERBOSE_MAKEFILE=ON \
   -DCMAKE_C_COMPILER_LAUNCHER=/usr/bin/ccache \
   -DCMAKE_CXX_COMPILER_LAUNCHER=/usr/bin/ccache \
-  ${CMAKE_OPTS[@]} "$EXTRA_OPTS" .. && \
+  ${CMAKE_OPTS[@]} ${$EXTRA_OPTS[@]} .. && \
   ninja && ninja install/strip && \
 
 find $REPO_DIR -type d -path "*/AppDir" -exec tar cJvf far2m.tar.xz -C {} . \;
