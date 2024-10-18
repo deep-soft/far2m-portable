@@ -149,7 +149,7 @@ jobs:
 #           fi
 #           popd
 
-      - name: Checkout and patch far2l extra plugins
+      - name: Checkout and patch far2m extra plugins
         shell: bash
         run: |
           pushd far2m
@@ -162,7 +162,7 @@ jobs:
           # far2m-netcfgplugin far2m-sqlplugin far2m-processes
           for plug in netcfgplugin sqlplugin processes ; do
             git clone --depth 1 https://github.com/deep-soft/far2m-$plug.git && \
-            ( echo "mv far2l-$plug $plug" && \
+            ( echo "mv far2m-$plug $plug" && \
               mv far2m-$plug $plug && \
               cd $plug && \
               find . -mindepth 1 -name 'src' -prune -o -exec rm -rf {} + && \
