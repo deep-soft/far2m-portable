@@ -77,7 +77,7 @@ jobs:
       - name: patch build_far2m.sh for run-after-cmake-before-package.sh
         shell: bash
         run: |
-          sed -ibak '/find \$REPO_DIR -type d -path \"\*\/AppDir\"/i \\nbash ${GITHUB_WORKSPACE}/run-after-cmake-before-package.sh' ${GITHUB_WORKSPACE}/build_far2m.sh;          
+          sed -ibak '/find \$REPO_DIR -type d -path \"\*\/AppDir\"/i \\nbash ${GITHUB_WORKSPACE}/run-after-cmake-before-package.sh' ${GITHUB_WORKSPACE}/build_far2m.sh;
           cat ${GITHUB_WORKSPACE}/build_far2m.sh;
 
       - name: patch build_far2m.sh for PLUGINS_EXTRA
@@ -135,20 +135,57 @@ jobs:
           bash bins/sed-stuff.sh "_" "${{ inputs.SED_STUFF_PARAMS }}"
           popd
 
-      - name: Checkout and patch far2m
-        continue-on-error: true
+#       - name: Checkout and patch far2m
+#         continue-on-error: true
+#         shell: bash
+#         run: |
+#           pushd far2m
+#           if [ -f netcfg/src/common/netlink.h ]; then
+#             # patch if_tunnel.h, add ip.h before
+#             echo 'patch if_tunnel.h, add ip.h before'
+#             sed -ibak 's!#include <linux/if_tunnel.h>!#include <linux/ip.h>\n#include <linux/if_tunnel.h>!' netcfg/src/common/netlink.h
+#             echo 'grep /i.*.h netcfg/src/common/netlink.h'
+#             grep '/i.*.h' netcfg/src/common/netlink.h
+#           fi
+#           popd
+
+      - name: Checkout and patch far2l extra plugins
         shell: bash
         run: |
           pushd far2m
-          if [ -f netcfg/src/common/netlink.h ]; then
-            # patch if_tunnel.h, add ip.h before
-            echo 'patch if_tunnel.h, add ip.h before'
-            sed -ibak 's!#include <linux/if_tunnel.h>!#include <linux/ip.h>\n#include <linux/if_tunnel.h>!' netcfg/src/common/netlink.h
-            echo 'grep /i.*.h netcfg/src/common/netlink.h'
-            grep '/i.*.h' netcfg/src/common/netlink.h
-          fi
+          # remove netcfg
+          mv netcfg netcfg-skip
+          # AddPlugin( netcfg        wide  1 ) to  AddPlugin( netcfgplugin        wide  1 ) 
+          sed -ibak 's!AddPlugin( netcfg !AddPlugin( netcfgplugin !' CMakeLists.txt
+          cat CMakeLists.txt | grep netcfg
+
+          # far2m-netcfgplugin far2m-sqlplugin far2m-processes
+          for plug in netcfgplugin sqlplugin processes ; do
+            git clone --depth 1 https://github.com/deep-soft/far2m-$plug.git && \
+            ( echo "mv far2l-$plug $plug" && \
+              mv far2m-$plug $plug && \
+              cd $plug && \
+              find . -mindepth 1 -name 'src' -prune -o -exec rm -rf {} + && \
+              mv src/* . && rm -rf src )
+            echo "add_subdirectory($plug)" >> CMakeLists.txt
+          done
+          # far2m-SimpleComment
+          for plug in SimpleComment ; do
+            git clone --depth 1 https://github.com/deep-soft/far2m-$plug.git && \
+            ( echo "mv far2m-$plug $plug" && \
+              mv far2m-$plug $plug )
+            echo "add_subdirectory($plug)" >> CMakeLists.txt
+          done
+          echo "grep add_subdirectory CMakeLists.txt"
+          grep "add_subdirectory" CMakeLists.txt
+          # patch if_tunnel.h, add ip.h before
+          echo 'patch if_tunnel.h, add ip.h before'
+          sed -ibak 's!#include <linux/if_tunnel.h>!#include <linux/ip.h>\n#include <linux/if_tunnel.h>!' netcfgplugin/common/netlink.h
+          echo 'grep /i.*.h netcfgplugin/common/netlink.h'
+          grep '/i.*.h' netcfgplugin/common/netlink.h
+
           popd
-          
+
       - name: Setup ccache
         uses: deep-soft/cache@v4
         with:
