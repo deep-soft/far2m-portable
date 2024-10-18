@@ -42,15 +42,6 @@ on:
         type: boolean
         required: true
         default: false
-      MULTIARC_PDF:
-        description: MULTIARC_PDF
-        type: boolean
-        default: false
-        required: true
-      MULTIARC_PDF_PARAMS:
-        description: MULTIARC_PDF_PARAMS
-        default: "multiarc/src/ArcPlg.cpp"
-        required: true
       SED_STUFF:
         description: SED_STUFF
         type: boolean
@@ -131,20 +122,6 @@ jobs:
           echo "TAG_BUILD=$_build_" >> $GITHUB_ENV
           echo "WORK_DIR=$(pwd)" >> $GITHUB_ENV
           echo "TAG_DATE=$_date_" >> $GITHUB_ENV
-
-      - name: Checkout and MULTIARC_PDF patch 1
-        if: ${{ inputs.MULTIARC_PDF }}
-        #continue-on-error: true
-        shell: bash
-        env:
-          DEBUG_MODE_1: ${{ inputs.DEBUG_MODE_1 }}
-          DEBUG_MODE_2: ${{ inputs.DEBUG_MODE_2 }}
-        run: |
-          pushd far2m
-          if [[ -f bins/multiarc-pdf-patch.sh ]]; then
-            bash bins/multiarc-pdf-patch.sh "bins/sed-stuff-multiarc-pdf.txt" "${{ inputs.MULTIARC_PDF_PARAMS }}"
-          fi
-          popd
 
       - name: Checkout and sed-stuff
         if: ${{ inputs.SED_STUFF }}
@@ -231,6 +208,7 @@ jobs:
           # archive name is ${{ env.ZIP_RELEASE_ARCHIVE }}
 
       - name: Upload artifact
+        continue-on-error: true
         uses: deep-soft/upload-artifact@v4
         with:
           name: far2m-${{ matrix.arch }}
