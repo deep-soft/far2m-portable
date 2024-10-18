@@ -1,4 +1,4 @@
-far2m-src-cfg-ConfigOpt.cpp.patch
+far-src-cfg-ConfigOpt.cpp.patch
 WinPort-src-Backend-WinPortMain.cpp.patch
 wayland.patch
 far-src-base-SafeMMap.patch

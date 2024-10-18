@@ -8,7 +8,7 @@ EXTRA_OPTS="$*"
 echo "extra=$EXTRA_OPTS"
 
 if [[ $(awk -F= '/^ID=/ {print $2}' /etc/os-release) == "alpine" ]]; then
-  CMAKE_OPTS+=( "-DMUSL=ON -D__MUSL__=YES -DWITH_UTILITIES=OFF" )
+  CMAKE_OPTS+=( "-DMUSL=ON" )
 fi
 if [[ "$STANDALONE" == "true" ]]; then
   CMAKE_OPTS+=( "-DUSEWX=no" )

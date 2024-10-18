@@ -1,5 +1,5 @@
---- a/far2m/src/cfg/ConfigOpt.cpp
-+++ b/far2m/src/cfg/ConfigOpt.cpp
+--- a/far/src/cfg/ConfigOpt.cpp
++++ b/far/src/cfg/ConfigOpt.cpp
 @@ -157,7 +157,7 @@ const ConfigOpt g_cfg_opts[] = {
  	{true,  NSecInterface, "ExclusiveWinLeft", &Opt.ExclusiveWinLeft, 0},
  	{true,  NSecInterface, "ExclusiveWinRight", &Opt.ExclusiveWinRight, 0},
