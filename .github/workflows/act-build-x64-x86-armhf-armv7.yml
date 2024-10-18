@@ -156,7 +156,7 @@ jobs:
           # remove netcfg
           mv netcfg netcfg-skip
           # AddPlugin( netcfg        wide  1 ) to  AddPlugin( netcfgplugin        wide  1 ) 
-          sed -ibak 's!AddPlugin( netcfg !AddPlugin( netcfgplugin !' CMakeLists.txt
+          sed -ibak 's!AddPlugin( netcfg !# AddPlugin( netcfg !' CMakeLists.txt
           cat CMakeLists.txt | grep netcfg
 
           # far2m-netcfgplugin far2m-sqlplugin far2m-processes
