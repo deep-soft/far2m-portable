@@ -1,0 +1,9 @@
+--- a/far/src/base/SafeMMap.cpp
++++ b/far/src/base/SafeMMap.cpp
+@@ -1,5 +1,5 @@
+ #define _XOPEN_SOURCE // macos wants it for ucontext
+-
++#define __MUSL__
+ #include <errno.h>
+ #include <signal.h>
+ #include <unistd.h>
