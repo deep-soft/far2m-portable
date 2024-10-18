@@ -183,8 +183,9 @@ jobs:
       - name: Setup Alpine Linux for ${{ matrix.arch }}
         uses: deep-soft/setup-alpine@v1
         #with: branch: v3.16 or latest-stable
+        #with: branch: v3.18
         with:
-          branch: v3.18
+          branch: v3.19
           arch: ${{ matrix.arch }}
           packages: >
             git bash build-base ccache cmake coreutils findutils gawk grep libarchive-dev libnfs-dev libssh-dev
