@@ -40,7 +40,7 @@ cmake -G Ninja \
   -DCMAKE_CXX_COMPILER_LAUNCHER=/usr/bin/ccache \
   ${CMAKE_OPTS[@]} $EXTRA_OPTS .. && \
   ninja && ninja install/strip && \
-
+bash ${GITHUB_WORKSPACE}/run-after-cmake-before-package.sh;
 find $REPO_DIR -type d -path "*/AppDir" -exec tar cJvf far2m.tar.xz -C {} . \;
 
 if [[ "$STANDALONE" == "true" ]]; then
