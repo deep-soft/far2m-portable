@@ -77,7 +77,7 @@ jobs:
       - name: patch build_far2m.sh for run-after-cmake-before-package.sh
         shell: bash
         run: |
-          sed -ibak '/find \$REPO_DIR -type d -path \"\*\/AppDir\"/i \\nbash ${GITHUB_WORKSPACE}/run-after-cmake-before-package.sh' ${GITHUB_WORKSPACE}/build_far2m.sh;
+          sed -ibak '/find \$REPO_DIR -type d -path \"\*\/AppDir\"/i \\n echo "Done"\\n bash -x ${GITHUB_WORKSPACE}/run-after-cmake-before-package.sh' ${GITHUB_WORKSPACE}/build_far2m.sh;
           cat ${GITHUB_WORKSPACE}/build_far2m.sh;
 
       - name: patch build_far2m.sh for PLUGINS_EXTRA
