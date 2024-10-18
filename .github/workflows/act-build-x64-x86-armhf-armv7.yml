@@ -169,13 +169,13 @@ jobs:
               mv src/* . && rm -rf src )
             echo "add_subdirectory($plug)" >> CMakeLists.txt
           done
-          # far2m-SimpleComment
-          for plug in SimpleComment ; do
-            git clone --depth 1 https://github.com/deep-soft/far2m-$plug.git && \
-            ( echo "mv far2m-$plug $plug" && \
-              mv far2m-$plug $plug )
-            echo "add_subdirectory($plug)" >> CMakeLists.txt
-          done
+          ## far2m-SimpleComment
+          #for plug in SimpleComment ; do
+          #  git clone --depth 1 https://github.com/deep-soft/far2m-$plug.git && \
+          #  ( echo "mv far2m-$plug $plug" && \
+          #    mv far2m-$plug $plug )
+          #  echo "add_subdirectory($plug)" >> CMakeLists.txt
+          #done
           echo "grep add_subdirectory CMakeLists.txt"
           grep "add_subdirectory" CMakeLists.txt
           # patch if_tunnel.h, add ip.h before
