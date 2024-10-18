@@ -140,12 +140,12 @@ jobs:
         shell: bash
         run: |
           pushd far2m
-          if [ -f netcfg/common/netlink.h ]; then
+          if [ -f netcfg/src/common/netlink.h ]; then
             # patch if_tunnel.h, add ip.h before
             echo 'patch if_tunnel.h, add ip.h before'
-            sed -ibak 's!#include <linux/if_tunnel.h>!#include <linux/ip.h>\n#include <linux/if_tunnel.h>!' netcfg/common/netlink.h
-            echo 'grep /i.*.h netcfgplugin/common/netlink.h'
-            grep '/i.*.h' netcfgplugin/common/netlink.h
+            sed -ibak 's!#include <linux/if_tunnel.h>!#include <linux/ip.h>\n#include <linux/if_tunnel.h>!' netcfg/src/common/netlink.h
+            echo 'grep /i.*.h netcfg/src/common/netlink.h'
+            grep '/i.*.h' netcfg/src/common/netlink.h
           fi
           popd
           
